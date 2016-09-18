@@ -9,6 +9,10 @@
  */
 package org.openmrs.api;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 import org.openmrs.CareSetting;
 import org.openmrs.Concept;
 import org.openmrs.ConceptClass;
@@ -24,15 +28,11 @@ import org.openmrs.api.db.OrderDAO;
 import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.PrivilegeConstants;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 /**
  * Contains methods pertaining to creating/deleting/voiding Orders
  */
 public interface OrderService extends OpenmrsService {
+	
 	
 	public static final String PARALLEL_ORDERS = "PARALLEL_ORDERS";
 	
@@ -68,6 +68,7 @@ public interface OrderService extends OpenmrsService {
 	 * @should not allow revising an expired order
 	 * @should not allow revising an order with no previous order
 	 * @should save a revised order
+	 * @should save a revised order for a scheduled order which is not started
 	 * @should set order number specified in the context if specified
 	 * @should set the order number returned by the configured generator
 	 * @should set order type if null but mapped to the concept class
@@ -89,36 +90,42 @@ public interface OrderService extends OpenmrsService {
 	 * @should pass if an active order for the same concept exists in a different care setting
 	 * @should set Order type of Drug Order to drug order if not set and concept not mapped
 	 * @should set Order type of Test Order to test order if not set and concept not mapped
-	 * @should throw AmbiguousOrderException if an active drug order for the same drug formulation exists
+	 * @should throw AmbiguousOrderException if an active drug order for the same drug formulation
+	 *         exists
 	 * @should pass if an active order for the same concept exists in a different care setting
-	 * @should fail for revision order if an active drug order for the same concept and care settings exists
-	 * @should pass for revision order if an active test order for the same concept and care settings exists
+	 * @should fail for revision order if an active drug order for the same concept and care
+	 *         settings exists
+	 * @should pass for revision order if an active test order for the same concept and care
+	 *         settings exists
 	 * @should roll the autoExpireDate to the end of the day if it has no time component
 	 * @should not change the autoExpireDate if it has a time component
-	 * @should throw AmbiguousOrderException if disconnecting multiple active orders for the given concept
-	 * @should throw AmbiguousOrderException if disconnecting multiple active drug orders with the same drug
+	 * @should throw AmbiguousOrderException if disconnecting multiple active orders for the given
+	 *         concept
+	 * @should throw AmbiguousOrderException if disconnecting multiple active drug orders with the
+	 *         same drug
 	 */
-	@Authorized( { PrivilegeConstants.EDIT_ORDERS, PrivilegeConstants.ADD_ORDERS })
+	@Authorized({ PrivilegeConstants.EDIT_ORDERS, PrivilegeConstants.ADD_ORDERS })
 	public Order saveOrder(Order order, OrderContext orderContext) throws APIException;
-
+	
 	/**
-	 * Save or update the given retrospective <code>order</code> in the database. If the OrderType for the order
-	 * is not specified, then it will be set to the one set on the OrderContext if any, if none
-	 * exists on the orderContext, then it will be set to the one associated to the ConceptClass of
-	 * the ordered concept otherwise the save fails. If the CareSetting field of the order is not
-	 * specified then it will default to the one set on the passed in OrderContext if any otherwise
-	 * the save fails. Retrospective entry of orders can affect downstream systems that acts on orders created.
-     * Orders cannot be stopped if they are already stopped in retrospective entry.
-     *
-     * @param order the Order to save
-     * @param orderContext the OrderContext object
-     * @return the Order that was saved
-     * @throws APIException
-     * @see #saveOrder(Order, OrderContext)
+	 * Save or update the given retrospective <code>order</code> in the database. If the OrderType
+	 * for the order is not specified, then it will be set to the one set on the OrderContext if
+	 * any, if none exists on the orderContext, then it will be set to the one associated to the
+	 * ConceptClass of the ordered concept otherwise the save fails. If the CareSetting field of the
+	 * order is not specified then it will default to the one set on the passed in OrderContext if
+	 * any otherwise the save fails. Retrospective entry of orders can affect downstream systems
+	 * that acts on orders created. Orders cannot be stopped if they are already stopped in
+	 * retrospective entry.
+	 *
+	 * @param order the Order to save
+	 * @param orderContext the OrderContext object
+	 * @return the Order that was saved
+	 * @throws APIException
+	 * @see #saveOrder(Order, OrderContext)
 	 */
-	@Authorized({PrivilegeConstants.EDIT_ORDERS, PrivilegeConstants.ADD_ORDERS})
+	@Authorized({ PrivilegeConstants.EDIT_ORDERS, PrivilegeConstants.ADD_ORDERS })
 	public Order saveRetrospectiveOrder(Order order, OrderContext orderContext);
-
+	
 	/**
 	 * Completely delete an order from the database. This should not typically be used unless
 	 * desperately needed. Most orders should just be voided. See {@link #voidOrder(Order, String)}
@@ -307,7 +314,6 @@ public interface OrderService extends OpenmrsService {
 	/**
 	 * Gets all active orders for the specified patient matching the specified CareSetting,
 	 * OrderType as of the specified date. Below is the criteria for determining an active order:
-	 * 
 	 * <pre>
 	 * - Not voided
 	 * - Not a discontinuation Order i.e one where action != Action#DISCONTINUE
@@ -471,15 +477,16 @@ public interface OrderService extends OpenmrsService {
 	 *             <code>Order.Action.DISCONTINUE</code>
 	 * @since 1.10
 	 * @should set correct attributes on the discontinue and discontinued orders
+	 * @should pass for an active order which is scheduled and not started as of discontinue date
 	 * @should not pass for a discontinuation order
 	 * @should fail for a stopped order
 	 * @should fail for an expired order
 	 * @should reject a future discontinueDate
 	 * @should not pass for a discontinued order
 	 */
-	@Authorized( { PrivilegeConstants.ADD_ORDERS, PrivilegeConstants.EDIT_ORDERS })
+	@Authorized({ PrivilegeConstants.ADD_ORDERS, PrivilegeConstants.EDIT_ORDERS })
 	public Order discontinueOrder(Order orderToDiscontinue, Concept reasonCoded, Date discontinueDate, Provider orderer,
-	        Encounter encounter) throws Exception;
+	        Encounter encounter);
 	
 	/**
 	 * Discontinues an order. Creates a new order that discontinues the orderToDiscontinue.
@@ -494,14 +501,15 @@ public interface OrderService extends OpenmrsService {
 	 *             <code>Order.Action.DISCONTINUE</code>
 	 * @since 1.10
 	 * @should populate correct attributes on the discontinue and discontinued orders
+	 * @should pass for an active order which is scheduled and not started as of discontinue date
 	 * @should fail for a discontinuation order
 	 * @should fail if discontinueDate is in the future
 	 * @should fail for a voided order
 	 * @should fail for a discontinued order
 	 */
-	@Authorized( { PrivilegeConstants.ADD_ORDERS, PrivilegeConstants.EDIT_ORDERS })
+	@Authorized({ PrivilegeConstants.ADD_ORDERS, PrivilegeConstants.EDIT_ORDERS })
 	public Order discontinueOrder(Order orderToDiscontinue, String reasonNonCoded, Date discontinueDate, Provider orderer,
-	        Encounter encounter) throws Exception;
+	        Encounter encounter);
 	
 	/**
 	 * Creates or updates the given order frequency in the database
@@ -732,11 +740,10 @@ public interface OrderService extends OpenmrsService {
 	 */
 	@Authorized(PrivilegeConstants.GET_CONCEPTS)
 	public List<Concept> getTestSpecimenSources();
-
+	
 	/**
-	 * Gets the non coded drug concept, i.e the concept that matches the
-	 * uuid specified as the value for the global property
-	 * {@link OpenmrsConstants#GP_DRUG_NON_CODED_CONCEPT_UUID
+	 * Gets the non coded drug concept, i.e the concept that matches the uuid specified as the value
+	 * for the global property {@link OpenmrsConstants#GP_DRUG_NON_CODED_CONCEPT_UUID
 	 *
 	 * @return concept of non coded drug
 	 * @since 1.12
@@ -769,13 +776,13 @@ public interface OrderService extends OpenmrsService {
 	public OrderGroup getOrderGroup(Integer orderGroupId) throws APIException;
 	
 	/**
-	 * Saves the orderGroup.
-	 * It also saves the list of orders that are present within the orderGroup.
+	 * Saves the orderGroup. It also saves the list of orders that are present within the
+	 * orderGroup.
 	 *
 	 * @param orderGroup the orderGroup to be saved
 	 * @since 1.12
 	 * @throws APIException
 	 */
-	@Authorized( { PrivilegeConstants.EDIT_ORDERS, PrivilegeConstants.ADD_ORDERS })
+	@Authorized({ PrivilegeConstants.EDIT_ORDERS, PrivilegeConstants.ADD_ORDERS })
 	public OrderGroup saveOrderGroup(OrderGroup orderGroup) throws APIException;
 }
