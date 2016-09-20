@@ -50,6 +50,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.api.context.ServiceContext;
 import org.openmrs.scheduler.SchedulerUtil;
 import org.openmrs.util.OpenmrsClassLoader;
+import org.openmrs.util.OpenmrsConstants;
 import org.openmrs.util.OpenmrsUtil;
 import org.springframework.context.support.AbstractRefreshableApplicationContext;
 
@@ -211,6 +212,35 @@ public class ModuleUtil {
 		
 		return file;
 	}
+
+	/**
+	 * Checks if the current OpenMRS version is in an array of versions.
+	 * <p>
+	 * This method calls {@link ModuleUtil#matchRequiredVersions(String, String)} internally.
+	 * </p>
+	 *
+	 * @param versions the openmrs versions to be checked against the current openmrs version
+	 * @return true if the current openmrs version is in versions otherwise false
+	 * @should return false when versions is null
+	 * @should return false when versions is empty
+	 * @should return true if current openmrs version matches one element in versions
+	 * @should return false if current openmrs version does not match any element in versions
+	 */
+	public static boolean isOpenmrsVersionInVersions(String ...versions) {
+
+		if (versions == null || versions.length == 0) {
+			return false;
+		}
+
+		boolean result = false;
+		for (String version : versions) {
+			if (matchRequiredVersions(OpenmrsConstants.OPENMRS_VERSION_SHORT, version)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
 	
 	/**
 	 * This method is an enhancement of {@link #compareVersion(String, String)} and adds support for
@@ -225,6 +255,15 @@ public class ModuleUtil {
 	 * <li>1.2.2 - 1.2.3</li>
 	 * <li>1.2.* - 1.3.*</li>
 	 * </ul>
+	 * <p>
+	 * Again the possible require version number formats with their interpretation:
+	 * <ul>
+	 * <li>1.2.3 means 1.2.3 and above</li>
+	 * <li>1.2.* means any version of the 1.2.x branch. That is 1.2.0, 1.2.1, 1.2.2,... but not 1.3.0, 1.4.0</li>
+	 * <li>1.2.2 - 1.2.3 means 1.2.2 and 1.2.3 (inclusive)</li>
+	 * <li>1.2.* - 1.3.* means any version of the 1.2.x and 1.3.x branch</li>
+	 * </ul>
+	 * </p>
 	 *
 	 * @param version openmrs version number to be compared
 	 * @param versionRange value in the config file for required openmrs version
@@ -333,7 +372,15 @@ public class ModuleUtil {
 	 * <li>1.2.2 - 1.2.3</li>
 	 * <li>1.2.* - 1.3.*</li>
 	 * </ul>
-	 * <br>
+	 * <p>
+	 * Again the possible require version number formats with their interpretation:
+	 * <ul>
+	 * <li>1.2.3 means 1.2.3 and above</li>
+	 * <li>1.2.* means any version of the 1.2.x branch. That is 1.2.0, 1.2.1, 1.2.2,... but not 1.3.0, 1.4.0</li>
+	 * <li>1.2.2 - 1.2.3 means 1.2.2 and 1.2.3 (inclusive)</li>
+	 * <li>1.2.* - 1.3.* means any version of the 1.2.x and 1.3.x branch</li>
+	 * </ul>
+	 * </p>
 	 *
 	 * @param version openmrs version number to be compared
 	 * @param versionRange value in the config file for required openmrs version
