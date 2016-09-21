@@ -16,31 +16,31 @@
 	<artifactId>openmrs</artifactId>
 	<version>1.12.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	<name>OpenMRS</name>
-	<description>Master project for the modules of OpenMRS</description>
-	<url>http://openmrs.org</url>
+	<name>LibreHealth Toolkit</name>
+	<description>Master project for the modules of LibreHealth Toolkit</description>
+	<url>http://librehealth.io</url>
 
 	<issueManagement>
-		<system>JIRA</system>
-		<url>http://tickets.openmrs.org/</url>
+		<system>Gitlab</system>
+		<url>https://gitlab.com/librehealth/lh-toolkit/issues</url>
 	</issueManagement>
 
 	<licenses>
 		<license>
 			<name>Mozilla Public License 2.0 with Healthcare Disclaimer</name>
-			<url>http://openmrs.org/license</url>
+			<url>http://librehealth.io/license</url>
 		</license>
 	</licenses>
 
 	<organization>
-		<name>OpenMRS Inc.</name>
-		<url>http://openmrs.org</url>
+		<name>LibreHealth</name>
+		<url>http://librehealth.io</url>
 	</organization>
 
 	<scm>
-		<connection>scm:git:git@github.com:openmrs/openmrs-core</connection>
-		<developerConnection>scm:git:git@github.com:openmrs/openmrs-core</developerConnection>
-		<url>https://github.com/openmrs/openmrs-core</url>
+		<connection>scm:git:git@gitlab.com:librehealth/lh-toolkit</connection>
+		<developerConnection>scm:git:git@gitlab.com:librehealth/lh-toolkit</developerConnection>
+		<url>https://gitlab.com/librehealth/lh-toolkit</url>
 	  <tag>HEAD</tag>
   </scm>
 
@@ -1122,11 +1122,11 @@
 						libraries are in active
 						development and subject to
 						change&lt;/small&gt;&lt;/em&gt;</bottom>
-					<header>&lt;a href="http://www.openmrs.org"
+					<header>&lt;a href="http://librehealth.io"
 						target=_top&gt;&lt;img
 						src="resources/openmrs-logo-small.gif"
 						border=0/&gt;&lt;/a&gt;</header>
-					<footer>&lt;a href="http://www.openmrs.org"
+					<footer>&lt;a href="http://librehealth.io"
 						target=_top&gt;${project.name}&lt;/a&gt;</footer>
 				</configuration>
 			</plugin>

@@ -1,5 +1,5 @@
 <%@ include file="/WEB-INF/template/include.jsp" %>
-<openmrs:globalProperty var="applicationName" key="application.name" defaultValue="OpenMRS"/>
+<openmrs:globalProperty var="applicationName" key="application.name" defaultValue="LibreHealth Toolkit"/>
 <c:choose>
 	<c:when test="${model.authenticatedUser != null}">
 		<c:choose>

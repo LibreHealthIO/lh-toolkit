@@ -1495,7 +1495,7 @@ public final class OpenmrsConstants {
 		props.add(new GlobalProperty(GP_VISIT_ASSIGNMENT_HANDLER, ExistingVisitAssignmentHandler.class.getName(),
 		        "Set to the name of the class responsible for assigning encounters to visits."));
 		
-		props.add(new GlobalProperty(GLOBAL_PROPERTY_APPLICATION_NAME, "OpenMRS",
+		props.add(new GlobalProperty(GLOBAL_PROPERTY_APPLICATION_NAME, "LibreHealth Toolkit",
 		        "The name of this application, as presented to the user, for example on the login and welcome pages."));
 		
 		props
