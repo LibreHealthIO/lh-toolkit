@@ -103,9 +103,9 @@
             </configuration>
          </plugin>
          <plugin>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>maven-jetty-plugin</artifactId>
-            <version>6.1.10</version>
+             <groupId>org.mortbay.jetty</groupId>
+             <artifactId>jetty-maven-plugin</artifactId>
+             <version>8.1.16.v20140903</version>
             <configuration>
                <webXml>${project.build.directory}/jetty/WEB-INF/web.xml</webXml>
                <webAppConfig>
@@ -155,9 +155,9 @@
          <build>
             <plugins>
                <plugin>
-                  <groupId>org.mortbay.jetty</groupId>
-                  <artifactId>maven-jetty-plugin</artifactId>
-                  <version>6.1.10</version>
+                   <groupId>org.mortbay.jetty</groupId>
+                   <artifactId>jetty-maven-plugin</artifactId>
+                   <version>8.1.16.v20140903</version>
                   <configuration>
                      <webXml>${project.build.directory}/jetty/WEB-INF/web.xml</webXml>
                      <webAppConfig>
