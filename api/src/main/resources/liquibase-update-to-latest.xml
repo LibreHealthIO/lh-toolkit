@@ -6015,14 +6015,16 @@
  					inner join encounter as encounter on encounter.provider_id = person.person_id
  					left join users as user on user.person_id = person.person_id
  				where user.person_id is null and encounter.provider_id not in (select person_id from provider);
- 				
+
  			insert into provider(person_id, identifier, creator, date_created, retired, retired_by, date_retired, retire_reason, uuid)
  				select distinct person.person_id, user.system_id, 1, CURRENT_TIMESTAMP, user.retired, user.retired_by, user.date_retired, user.retire_reason, CONCAT('prov', SUBSTRING(person.uuid, 5))
  				from person as person
  					inner join encounter as encounter on encounter.provider_id = person.person_id
- 					left join (select max(users.user_id) as user_id, users.system_id, users.person_id, users.retired, users.retired_by, users.date_retired, users.retire_reason 
- 							from users as users group by users.person_id) as user 
- 						on person.person_id = user.person_id
+ 					left join (SELECT users.user_id, users.system_id, users.person_id, users.retired, users.retired_by, users.date_retired, users.retire_reason
+						FROM users, (SELECT users.person_id, MAX(users.user_id) as user_id
+							FROM users GROUP BY users.person_id) latestuser
+						WHERE latestuser.user_id = users.user_id) as user
+					on person.person_id = user.person_id
  				where user.user_id is not null and encounter.provider_id not in (select person_id from provider);
          </sql>
  	</changeSet>
@@ -8400,7 +8402,7 @@
             </column>
         </addColumn>
     </changeSet>
-	
+
 	<changeSet id="201402120720-TRUNK-3902" author="k-joseph">
 		<preConditions onFail="MARK_RAN">
 			<not><columnExists tableName="concept_numeric" columnName="precise"/></not>
@@ -8434,7 +8436,7 @@
         </comment>
         <addUniqueConstraint tableName="location_attribute_type" columnNames="name" constraintName="location_attribute_type_unique_name"/>
     </changeSet>
-    
+
     <changeSet id="20140715-TRUNK-2999-remove_concept_word" author="rkorytkowski">
         <preConditions onFail="MARK_RAN">
             <tableExists tableName="concept_word"/>
@@ -8444,7 +8446,7 @@
         </comment>
         <dropTable tableName="concept_word"/>
     </changeSet>
-    
+
     <changeSet id="20140718-TRUNK-2999-remove_update_concept_index_task" author="rkorytkowski">
 		<comment>Deleting the update concept index task</comment>
 		<delete tableName="scheduler_task_config">
@@ -8499,7 +8501,7 @@
         <comment>Adding foreign key constraint from order_type.parent column to order_type.order_type_id column</comment>
         <addForeignKeyConstraint baseTableName="order_type" baseColumnNames="parent" constraintName="order_type_parent_order_type" referencedTableName="order_type" referencedColumnNames="order_type_id"/>
     </changeSet>
-    
+
     <changeSet id="201409230113-TRUNK-3484" author="k-joseph">
 		<preConditions onFail="MARK_RAN">
                 <sqlCheck expectedResult="1">
@@ -8522,7 +8524,7 @@
 		<comment>Dropping foreign key on patient.tribe</comment>
 		<dropForeignKeyConstraint baseTableName="patient" constraintName="belongs_to_tribe" />
 	</changeSet>
-	
+
     <changeSet id="20141010-trunk-4492" author="alec" >
       <preConditions onFail="MARK_RAN">
         <columnExists tableName="patient" columnName="tribe"/>
@@ -8683,7 +8685,7 @@
             <not><foreignKeyConstraintExists foreignKeyName="fk_patient_id_patient_identifier"/></not>
         </preConditions>
          <comment>Adding foreign key on patient_identifier.patient_id column</comment>
-        <addForeignKeyConstraint constraintName="fk_patient_id_patient_identifier" baseTableName="patient_identifier" baseColumnNames="patient_id"	referencedTableName="patient" referencedColumnNames="patient_id" /> 
+        <addForeignKeyConstraint constraintName="fk_patient_id_patient_identifier" baseTableName="patient_identifier" baseColumnNames="patient_id"	referencedTableName="patient" referencedColumnNames="patient_id" />
  	</changeSet>
 
 	<changeSet id="201506051103-TRUNK-4727" author="Chethan, Preethi">
@@ -8853,14 +8855,14 @@
             </column>
         </addColumn>
     </changeSet>
-    
+
     <changeSet id="TRUNK-4548-MigrateAllergiesChangeSet1" author="dkayiwa">
     	<preConditions onFail="MARK_RAN">
     		<not>
 				<sqlCheck expectedResult="0">
-					select count(*) from active_list al 
+					select count(*) from active_list al
 					inner join active_list_allergy ala on al.active_list_id=ala.active_list_id
-					where voided = 0 and active_list_type_id = (select active_list_type_id 
+					where voided = 0 and active_list_type_id = (select active_list_type_id
 					from active_list_type where name = 'Allergy')
 				</sqlCheck>
 			</not>
