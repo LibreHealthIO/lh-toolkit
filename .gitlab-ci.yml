@@ -1,0 +1,32 @@
+image: maven:3-jdk-8
+
+stages:
+  - build
+  - test
+  - deploy
+  
+unit_test-job:
+  stage: test
+  script: "mvn test -U"
+  
+build-job:
+  stage: build
+  script:
+    - mvn package -U -DskipTests=true
+  artifacts:
+    paths:
+      - webapp/target/*.war
+    expire_in: 5 days
+    
+deploy-job:
+  stage: deploy
+  script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - apt-get update -y && apt-get install rsync -y
+    # run ssh-agent
+    - eval $(ssh-agent -s)
+    - mv webapp/target/openmrs.war webapp/target/master.war
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress webapp/target/master.war ci@toolkit.librehealth.io:/var/lib/tomcat8/webapps
