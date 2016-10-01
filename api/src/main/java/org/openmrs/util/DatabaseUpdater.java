@@ -411,11 +411,6 @@ public class DatabaseUpdater {
 		String password = props.getProperty("hibernate.connection.password");
 		String url = props.getProperty("hibernate.connection.url");
 		
-		// hack for mysql to make sure innodb tables are created
-		if (url.contains("mysql") && !url.contains("InnoDB")) {
-			url = url + "&sessionVariables=default_storage_engine=InnoDB";
-		}
-		
 		Class.forName(driver);
 		return DriverManager.getConnection(url, username, password);
 	}
