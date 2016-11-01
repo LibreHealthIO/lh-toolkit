@@ -1,0 +1,3 @@
+[submodule "lh-toolkit-dev-guide"]
+	path = lh-toolkit-dev-guide
+	url = https://gitlab.com/vchilkuri/lh-toolkit-dev-guide
