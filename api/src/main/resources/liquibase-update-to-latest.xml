@@ -7573,7 +7573,7 @@
             <column name="java_class_name" value="org.openmrs.TestOrder" />
             <column name="creator" valueNumeric="1" />
             <column name="date_created" valueDate="2014-03-09" />
-            <column name="retired" valueNumeric="0" />
+            <column name="retired" valueBoolean="false" />
             <column name="uuid" value="52a447d3-a64a-11e3-9aeb-50e549534c5e" />
         </insert>
     </changeSet>
@@ -8311,6 +8311,10 @@
             <column name="date_created" valueDate="2014-03-06"/>
             <column name="retired" valueBoolean="false"/>
         </insert>
+		<modifySql dbms="postgresql">
+			<prepend value="SELECT setval('concept_class_concept_class_id_seq', (SELECT MAX(concept_class_id) FROM concept_class)+1);"/>
+		</modifySql>
+
     </changeSet>
 
     <changeSet id="20140304816-TRUNK-4139" author="Akshika">
@@ -8863,7 +8867,7 @@
 				<sqlCheck expectedResult="0">
 					select count(*) from active_list al
 					inner join active_list_allergy ala on al.active_list_id=ala.active_list_id
-					where voided = 0 and active_list_type_id = (select active_list_type_id
+					where voided = false and active_list_type_id = (select active_list_type_id
 					from active_list_type where name = 'Allergy')
 				</sqlCheck>
 			</not>
