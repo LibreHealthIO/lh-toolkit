@@ -4,20 +4,28 @@ stages:
   - build
   - test
   - deploy
-  
+
 unit_test-job:
   stage: test
-  script: "mvn test -U"
-  
+  script:
+    - groupadd -g 900 ci
+    - useradd -d /builds -s /bin/bash -M -u 900 -g 900 -N ci
+    - chown -R ci:ci /builds
+    - su ci -c "mvn test -U"
+
 build-job:
   stage: build
   script:
-    - mvn package -U -DskipTests=true
+    - groupadd -g 900 ci
+    - useradd -d /builds -s /bin/bash -M -u 900 -g 900 -N ci
+    - chown -R ci:ci /builds
+    - su ci -c "mvn package -U -DskipTests=true"
+
   artifacts:
     paths:
       - webapp/target/*.war
     expire_in: 5 days
-    
+
 deploy-job:
   stage: deploy
   script:
