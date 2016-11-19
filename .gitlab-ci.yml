@@ -29,6 +29,9 @@ build-job:
 deploy-job:
   stage: deploy
   script:
+    - groupadd -g 900 ci
+    - useradd -d /builds -s /bin/bash -M -u 900 -g 900 -N ci
+    - chown -R ci:ci /builds
     - su - ci
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - apt-get update -y && apt-get install rsync -y
