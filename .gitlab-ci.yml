@@ -29,15 +29,12 @@ build-job:
 deploy-job:
   stage: deploy
   script:
-    - groupadd -g 900 ci
-    - useradd -d /builds -s /bin/bash -M -u 900 -g 900 -N ci
-    - chown -R ci:ci /builds
-    - su ci -c 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - apt-get update -y && apt-get install rsync -y
     # run ssh-agent
-    - su ci -c "eval $(ssh-agent -s)"
-    - su ci -c "mv webapp/target/openmrs.war webapp/target/master.war"
-    - su ci -c "ssh-add <(echo "$SSH_PRIVATE_KEY")"
-    - su ci -c "mkdir -p ~/.ssh"
-    - su ci -c "echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config"
-    - su ci -c "rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress webapp/target/master.war ci@toolkit.librehealth.io:/var/lib/tomcat8/webapps"
+    - eval $(ssh-agent -s)
+    - mv webapp/target/openmrs.war webapp/target/master.war
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+    - rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress webapp/target/master.war ci@toolkit.librehealth.io:/var/lib/tomcat8/webapps
