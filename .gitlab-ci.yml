@@ -29,6 +29,7 @@ build-job:
 deploy-job:
   stage: deploy
   script:
+    - su - ci
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - apt-get update -y && apt-get install rsync -y
     # run ssh-agent
