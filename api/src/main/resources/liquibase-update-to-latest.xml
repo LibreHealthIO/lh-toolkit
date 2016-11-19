@@ -7563,6 +7563,7 @@
     </changeSet>
 
     <changeSet id="201403070132-TRUNK-4286" author="andras-szell">
+        <validCheckSum><comment>Changed retired to valueBoolean</comment>3:c173dabacb0e6e66c26119926a754fae</validCheckSum>
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="0">select count(*) from order_type where java_class_name = 'org.openmrs.TestOrder'</sqlCheck>
         </preConditions>
