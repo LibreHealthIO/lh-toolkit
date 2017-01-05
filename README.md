@@ -14,8 +14,9 @@ The project tree is set up as follows:
         <td>puppet</td>
         <td>Puppet scripts for local development and deployment.</td>
     </tr>
+	<tr>
         <td>release-test</td>
-        <td>Cucumber/selenium integration tests. Run daily against a running web app.
+        <td>Cucumber/selenium integration tests. Run daily against a running web application.</td>
     </tr>
     <tr>
         <td>test</td>
@@ -27,7 +28,7 @@ The project tree is set up as follows:
     </tr>
     <tr>
         <td>web/</td>
-        <td>java and resource files that are used in the webapplication.</td>
+        <td>java and resource files that are used in the web application.</td>
     </tr>
     <tr>
         <td>webapp/</td>
