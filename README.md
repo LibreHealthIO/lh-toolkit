@@ -1,5 +1,7 @@
 [![build status](https://gitlab.com/librehealth/lh-toolkit/badges/master/build.svg)](https://gitlab.com/librehealth/lh-toolkit/commits/master)
 
+Looking to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started. 
+
 LibreHealth Toolkit is a software API and user interface components that can be used to create electronic health record systems.
 Read more about the project & find documentation at: http://toolkit.librehealth.io
 
