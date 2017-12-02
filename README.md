@@ -1,6 +1,6 @@
 [![build status](https://gitlab.com/librehealth/lh-toolkit/badges/master/build.svg)](https://gitlab.com/librehealth/lh-toolkit/commits/master)
 
-Looking to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started. 
+Looking to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started.
 
 LibreHealth Toolkit is a software API and user interface components that can be used to create electronic health record systems.
 Read more about the project & find documentation at: http://toolkit.librehealth.io
@@ -36,7 +36,7 @@ The project tree is set up as follows:
         <td>webapp/</td>
         <td>jsp files used in building the war file.</td>
     </tr>
-    <tr> 
+    <tr>
         <td>.gitlab-ci.yml</td>
         <td>Used to configure Gitlab CI. Each branch can have its own configuration.</td>
     </tr>
@@ -47,5 +47,5 @@ The project tree is set up as follows:
     <tr>
         <td>pom.xml</td>
         <td>The main maven file used to build and package OpenMRS.</td>
-    </tr>  
+    </tr>
 </table>
