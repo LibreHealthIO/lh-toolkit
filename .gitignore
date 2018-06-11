@@ -62,6 +62,7 @@ nb-configuration.xml
 
 ### Linux ###
 .*
+!.dockerignore
 !.gitignore
 !.gitattributes
 !.tx
