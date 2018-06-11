@@ -1,0 +1,24 @@
+version: '2.1'
+services:
+  db:
+    image: 'mysql:5.7'
+    command: '--max_allowed_packet=32505856' # Set max_allowed_packet to 256M
+    restart: always
+    env_file: ./docker/.env
+    volumes:
+      - ./docker/db/:/docker-entrypoint-initdb.d/
+      - mysql_data:/var/lib/mysql
+  lh-toolkit:
+    build:
+      context: .
+    ports:
+      - '127.0.0.1:8080:8080'
+    volumes:
+      - ./docker/lh-toolkit-runtime.properties:/usr/local/tomcat/lh-toolkit-runtime.properties:ro
+      - ./docker/index.html:/usr/local/tomcat/webapps/ROOT/index.html:ro
+
+    depends_on:
+      - db
+    restart: always
+volumes:
+  mysql_data: {}
