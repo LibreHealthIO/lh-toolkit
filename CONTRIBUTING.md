@@ -60,7 +60,7 @@ Regardless of whether you're reporting the bug to the lh-toolkit or to a module 
   * Include tests, and ensure they pass
   * Search to see if your new functionality has been discussed at our [Forums](https://forums.librehealth.io) or in [Gitlab Issues](https://gitlab.com/librehealth/lh-toolkit/issues), and include updates as appropriate
 
-6. Follow the [Coding Conventions described in our developer manual](https://toolkit.librehealth.io/devmanual).
+6. Follow the [Coding Conventions described in our developer manual](https://docs.librehealth.io/docs/projects/toolkit/guides/development).
 
   > However, please note that **merge requests consisting entirely of style changes are not welcome**. Style changes in the context of pull requests that also refactor code, fix bugs, improve functionality *are* welcome.
 
