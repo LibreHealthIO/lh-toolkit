@@ -67,7 +67,7 @@ Regardless of whether you're reporting the bug to the lh-toolkit or to a module 
 7. Commit
 
   For every commit please write a short (max 72 characters) summary in the first line followed with a blank line and then more detailed descriptions of the change. Use markdown syntax for simple styling. Please include any Issue #xxx in your summary.
-  
+
         git commit -m "Issue #123: Put change summary here (can be a issue title)"
 
   **NEVER leave the commit message blank!** Provide a detailed, clear, and complete description of your commit!
@@ -75,7 +75,7 @@ Regardless of whether you're reporting the bug to the lh-toolkit or to a module 
 8. Issue a Merge Request
 
   Before submitting a [merge request](https://docs.gitlab.com/ce/workflow/forking_workflow.html#merging-upstream), update your branch to the latest code.
-  
+
         git pull --rebase upstream master
 
   If you have made many commits, we ask you to squash them into atomic units of work. Most issues should have one commit only, especially bug fixes, which makes them easier to back port.
@@ -105,7 +105,7 @@ Regardless of whether you're reporting the bug to the lh-toolkit or to a module 
   * In GitLab Issues, comment on your issue by linking to the URL of the pull request. A developer from the project should move to Testing on the Issue Board.
 
 
-  Thanks for that -- we'll get your merge request reviewed. You should also review other merge requests, just like other developers will review yours and comment on them. Based on the comments, you should address them. Once the reviewers approve, the maintainer will merge the code and move the Issue to Production and close on the Issue Board. 
+  Thanks for that -- we'll get your merge request reviewed. You should also review other merge requests, just like other developers will review yours and comment on them. Based on the comments, you should address them. Once the reviewers approve, the maintainer will merge the code and move the Issue to Production and close on the Issue Board.
 
 ## Responding to Feedback
 
@@ -127,7 +127,7 @@ Regardless of whether you're reporting the bug to the lh-toolkit or to a module 
 
 ### Additional Resources
 
-<!--* [LibreHealth Toolkit User Manual]https://docs.librehealth.io/projects/toolkit/guides/user)-->
+<!--* [LibreHealth Toolkit User Manual](https://docs.librehealth.io/projects/toolkit/guides/user)-->
 * [About LibreHealth](https://librehealth.io)
 * [General GitLab documentation](https://docs.gitlab.com/ce/)
 * [GitLab workflow documentation](https://docs.gitlab.com/ce/workflow/README.html)
