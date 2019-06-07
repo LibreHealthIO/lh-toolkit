@@ -8,6 +8,8 @@ services:
     volumes:
       - ./docker/db/:/docker-entrypoint-initdb.d/
       - mysql_data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3389:3389"
   lh-toolkit:
     build:
       context: .
