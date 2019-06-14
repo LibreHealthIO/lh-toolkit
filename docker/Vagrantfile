@@ -23,8 +23,10 @@ Vagrant.configure('2') do |config|
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
   config.vm.network 'forwaFded_port', guest: '3306', host: '3306',
-                                      host_ip: '127.0.0.1'
+                    host_ip: '127.0.0.1'
 
+  config.vm.synced_folder '..', '/vagrant', owner: 'vagrant',
+                                            group: 'vagrant'
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
