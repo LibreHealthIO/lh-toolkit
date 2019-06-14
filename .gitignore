@@ -78,3 +78,5 @@ nb-configuration.xml
 /web/WEB-INF/dwr-modules.xml
 *.log
 #############
+
+.vagrant
