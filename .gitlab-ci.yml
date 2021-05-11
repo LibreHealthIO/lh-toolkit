@@ -37,7 +37,7 @@ publish-job:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress webapp/target/master.war ci@toolkit.librehealth.io:/var/lib/tomcat8/webapps
+    - rsync -avz -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress webapp/target/master.war ci@toolkit.librehealth.io:/var/lib/tomcat9/webapps
 
 
 docker-build-master:
