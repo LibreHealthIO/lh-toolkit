@@ -1,3 +1,59 @@
+Project Title: LibreHealthIO/lh-toolkit
+
+About LibreHealth:
+
+According to the librehealth.io website about us section, 
+"LibreHealth is a collaborative community for free & open source software projects in Health IT, 
+and is a member project of Software Freedom Conservancy."
+
+According to librehealth.io, LibreHealth can be described with the following terms: 
+Meritocracy, Openness, Outcome-Driven, Transparency, Umbrella Organization, and  User-Driven.
+
+About Docker
+
+Docker is required to use the following toolkit as suggested by the installation steps below. 
+Docker is a software that was first released in 2013, that provides for the storage of other forms of software in "containers". 
+The containers are hosted on a cloud based docker engine. Docker provides for increased automation and efficiency when it comes to the development of software applications.
+
+Table of Contents
+Title of Project
+Installation Steps
+Credits
+Contributing
+Project Description
+Project Tree
+
+Installation Steps:
+
+The following installation instructions are utilizing an advanced installation setting and are intended primarily for software developers.
+
+1. Complete the "Running the project" guide.
+https://docs.librehealth.io/projects/toolkit/guides/development/index.html#running-the-project
+
+2. Go to the URL where the project is and select your language.
+localhost:8080/openmrs
+
+3. You need MySQL database to install LH Toolkit.
+
+4. It is recommended to use a Docker container.
+
+5. In the terminal, type this: docker-compose -f docker-compose.dev.yml up -d db
+
+6. Continue to install MySQL database selecting the "Advanced option".
+
+7. Enter "toolkit" as the database name and click next.
+
+8. On the next screen answer "no" and use the following credentials:
+
+name: toolkit
+password: password
+
+9. When asked on whether to upload modules from the web interface and enable automatic updates, answer "yes".
+
+10. On the summary screen, make sure all information is correct, before clicking next, to finish installation.
+
+
+
 [![build status](https://gitlab.com/librehealth/lh-toolkit/badges/master/build.svg)](https://gitlab.com/librehealth/lh-toolkit/commits/master)
 
 Looking to contribute? See [CONTRIBUTING.md](CONTRIBUTING.md) for how to get started.
